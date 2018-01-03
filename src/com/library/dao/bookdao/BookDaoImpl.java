@@ -64,4 +64,49 @@ public class BookDaoImpl implements BookDao {
 		return 0;
 	}
 
+	@Override
+	public int deleteBook(int id) {
+		// TODO Auto-generated method stub
+		Connection conn = DBConnection.getConn();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "delete from books where id=?";
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			int n = ps.executeUpdate();
+			if(n==1) return 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			DBConnection.closeDB(conn, ps, rs);
+		}
+		return 0;
+	}
+
+	@Override
+	public int updateBook(Book book) {
+		// TODO Auto-generated method stub
+		Connection conn = DBConnection.getConn();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "update books set name=?,author=?,price=?,others=? where id=?";
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, book.getName());
+			ps.setString(2, book.getAuthor());
+			ps.setFloat(3, book.getPrice());
+			ps.setString(4, book.getOthers());
+			ps.setInt(5, book.getId());
+			int n = ps.executeUpdate();
+			if (n == 1)
+				return 1;
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			DBConnection.closeDB(conn, ps, rs);
+		}
+		return 0;
+	}
+
 }

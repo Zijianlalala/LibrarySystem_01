@@ -11,6 +11,15 @@
 <link type="text/css" rel="stylesheet" media="all"
 	href="styles/global_color.css" />
 </head>
+<script type="text/javascript" language="javascript">
+//删除图书
+function deleteBook(id) {
+	var r = window.confirm("确定要删除此图书吗？");
+	if(r){
+		window.location.href="deleteBook?id="+id;
+	}
+}
+</script>
 <body>
 	<!--Logo区域开始-->
 	<div id="header">
@@ -30,16 +39,11 @@
 	<!--主要区域开始-->
 	<div id="main">
 		<form action="" >
-			<!--排序-->
 			<div class="search_add">
 				<input type="button" value="增加" class="btn_add"
 					onclick="location.href='toAddBook';" />
 			</div>
-			<!--启用操作的操作提示-->
-			<div id="operate_result_info" class="operate_success">
-				<img src="images/close.png"
-					onclick="this.parentNode.style.display='none';" /> 删除成功！
-			</div>
+			
 			<!--数据区域：用表格展示数据-->
 			<div id="data">
 				<table id="datalist">
@@ -58,15 +62,17 @@
 							<td>${c.author }</td>
 							<td>${c.price }</td>
 							<td>${c.others }</td>
-							<td><input type="button" value="修改"
-								class="btn_modify" onclick="location.href='fee_modi.html';" />
+							<td><a href="toUpdateBook?id=${c.id}">
+								<input type="button" value="修改" class="btn_modify"/>
+								</a>
 								<input type="button" value="删除" class="btn_delete"
-								onclick="deleteFee();" /></td>
+								onclick="deleteBook(${c.id});" /></td>
 						</tr>
 					</c:forEach>
 				</table>
 			</div>
 		</form>
+		<h3>${deleteMsg }</h3>
 	</div>
 	<!--主要区域结束-->
 </body>
